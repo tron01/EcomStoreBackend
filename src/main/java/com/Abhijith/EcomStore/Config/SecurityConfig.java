@@ -25,8 +25,7 @@ import lombok.AllArgsConstructor;
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig {
-	
-	
+
 	private final CustomUserDetailService userDetailService;
 	private final JwtFilter jwtFilter;
 	private final CustomAuthenticationEntryPoint authenticationEntrypoint;
@@ -40,13 +39,14 @@ public class SecurityConfig {
 					.authenticationEntryPoint(authenticationEntrypoint))
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(r->r
-					.requestMatchers("/api/auth").permitAll()
+					.requestMatchers("api/auth/login").permitAll()
 					.requestMatchers("/api/admin/**").hasAuthority("ADMIN")
 					.requestMatchers("/api/users/**").hasAuthority("USERS")
 					.anyRequest().authenticated())
 			
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-			.sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+			.sessionManagement(s->
+									   s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 			
 			return http.build();
 			
@@ -60,8 +60,8 @@ public class SecurityConfig {
     @Bean
     AuthenticationManager authenticationManager() {
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-		provider.setPasswordEncoder(passwordEncoder());
 		provider.setUserDetailsService(userDetailService);
+		provider.setPasswordEncoder(passwordEncoder());
 		return new ProviderManager(provider);
 	}
 	

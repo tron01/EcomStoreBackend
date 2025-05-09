@@ -11,26 +11,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth/")
+@RequestMapping("/api/auth")
 @AllArgsConstructor
-public class AthuController {
+public class AuthController {
 
 	private final JwtService jwtService;
 	private final AuthenticationManager manager;
 	private  final UserRepository userRepository;
 	
 	
-	@GetMapping("/login")
+	@PostMapping("/login")
 	private ResponseEntity<TokenDto> login(@RequestBody UserRequest request) {
-		manager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 		
-		UserDetails user= userRepository.findByUsername(request.getUsername()).orElseThrow(
+		manager.authenticate(
+				new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+		
+		Users user= userRepository.findByUsername(request.getUsername()).orElseThrow(
 				()->new RuntimeException("User not found"));
 		
 		String token = jwtService.generateToken(user);

@@ -32,7 +32,7 @@ public class Users implements UserDetails {
 	private Role role;
 	private String password;
 	private Boolean isActive;
-	private Boolean isLocked;
+	private Boolean isNonLocked;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -51,7 +51,7 @@ public class Users implements UserDetails {
 	
 	@Override
 	public boolean isAccountNonLocked() {
-		return isLocked;
+		return isNonLocked;
 	}
 
 	@Override
@@ -59,8 +59,6 @@ public class Users implements UserDetails {
 		return isActive;
 	}
 
-	public enum Role{
-		ADMIN,USERS
-	}
+	
 	
 }
