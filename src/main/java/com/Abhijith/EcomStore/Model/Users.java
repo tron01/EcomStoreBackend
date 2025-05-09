@@ -18,9 +18,6 @@ import jakarta.persistence.Id;
 @Entity
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 public class Users implements UserDetails {
 	
 	@Id
