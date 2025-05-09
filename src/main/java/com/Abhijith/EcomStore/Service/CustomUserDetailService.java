@@ -21,5 +21,10 @@ public class CustomUserDetailService  implements UserDetailsService{
 					   .orElseThrow(()->new UsernameNotFoundException("User not found"));
 	
 	}
+	
+	public UserDetails loadUserByID(long id) throws UsernameNotFoundException{
+		return userRepository.findById(id)
+					   .orElseThrow(()->new UsernameNotFoundException("User not found"));
+	}
 
 }
