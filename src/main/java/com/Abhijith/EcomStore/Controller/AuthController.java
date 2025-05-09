@@ -1,16 +1,17 @@
 package com.Abhijith.EcomStore.Controller;
 
 import com.Abhijith.EcomStore.Dto.TokenDto;
-import com.Abhijith.EcomStore.Dto.UserRequest;
+import com.Abhijith.EcomStore.Dto.UserCreate;
+import com.Abhijith.EcomStore.Dto.UserCreateResponse;
+import com.Abhijith.EcomStore.Dto.UserLogin;
 import com.Abhijith.EcomStore.Model.Users;
 import com.Abhijith.EcomStore.Repository.UserRepository;
-import com.Abhijith.EcomStore.Service.CustomUserDetailService;
 import com.Abhijith.EcomStore.Service.JwtService;
+import com.Abhijith.EcomStore.Service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,10 +22,11 @@ public class AuthController {
 	private final JwtService jwtService;
 	private final AuthenticationManager manager;
 	private  final UserRepository userRepository;
+	private final UserService userService;
 	
 	
 	@PostMapping("/login")
-	private ResponseEntity<TokenDto> login(@RequestBody UserRequest request) {
+	public ResponseEntity<TokenDto> login(@RequestBody UserLogin request) {
 		
 		manager.authenticate(
 				new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
@@ -35,6 +37,11 @@ public class AuthController {
 		String token = jwtService.generateToken(user);
 		
 		return ResponseEntity.ok(new TokenDto(token));
+	}
+	
+	@PostMapping("/register")
+	public ResponseEntity<UserCreateResponse> register (@RequestBody UserCreate request){
+		 return ResponseEntity.ok(userService.register(request));
 	}
 	
 }
