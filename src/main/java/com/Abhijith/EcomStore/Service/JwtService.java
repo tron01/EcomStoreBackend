@@ -6,15 +6,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
 
 @Service
 public class JwtService {
 	
-	private static final long EXPIRATION_TIME = 864000000; //- which equals to 10 da
+	private static final long EXPIRATION_TIME = 864000000; //- which equals to 10 days
 	private final String secretKey = "secre1qddwddqdqd41414f14fwffwffwfffwff1241444144qrtKeyfafqqtqrqwfwfmwfqfq2";
 	private final SecretKey signingKey = Keys.hmacShaKeyFor(secretKey.getBytes());
 	
