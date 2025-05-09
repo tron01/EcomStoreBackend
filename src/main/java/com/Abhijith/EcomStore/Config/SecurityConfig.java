@@ -7,6 +7,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +38,7 @@ public class SecurityConfig {
 			.exceptionHandling(e->e
 					.accessDeniedHandler(accessDeniedHandler)
 					.authenticationEntryPoint(authenticationEntrypoint))
-			.csrf(c->c.disable())
+			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(r->r
 					.requestMatchers("/api/auth").permitAll()
 					.requestMatchers("/api/admin/**").hasAuthority("ADMIN")
