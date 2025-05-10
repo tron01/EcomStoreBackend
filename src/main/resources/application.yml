@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: EcomStore
+
+  profiles:
+    active: dev
+
+
