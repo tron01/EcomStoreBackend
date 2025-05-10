@@ -11,8 +11,8 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-	
-	private static final long EXPIRATION_TIME = 864000000; //- which equals to 10 days
+
+	private final long EXPIRATION_TIME = 60 * 60 * 1000; // 1 hour
 	private final String secretKey = "secre1qddwddqdqd41414f14fwffwffwfffwff1241444144qrtKeyfafqqtqrqwfwfmwfqfq2";
 	private final SecretKey signingKey = Keys.hmacShaKeyFor(secretKey.getBytes());
 	
@@ -20,6 +20,7 @@ public class JwtService {
 		return Jwts.builder()
 				 .subject(String.valueOf(user.getId()))
 				 .issuedAt(new Date())
+				 .claim("role",user.getRole().name()) //setting role in token
 				 .expiration(new Date((new Date()).getTime() + EXPIRATION_TIME))
 				 .signWith(signingKey)
 				 .compact();
