@@ -46,7 +46,7 @@ public class SecurityConfig {
 					.authenticationEntryPoint(authenticationEntrypoint))
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(r->r
-					.requestMatchers("api/auth/**").permitAll()
+					.requestMatchers("/api/auth/**").permitAll()
 					.requestMatchers("/api/admin/**").hasAuthority("ADMIN")
 					.requestMatchers("/api/users/**").hasAuthority("USERS")
 					.anyRequest().authenticated())

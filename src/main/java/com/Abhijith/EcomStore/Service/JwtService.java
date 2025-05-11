@@ -18,12 +18,12 @@ public class JwtService {
 	
 	public String generateToken(Users user) {
 		return Jwts.builder()
-				 .subject(String.valueOf(user.getId()))
-				 .issuedAt(new Date())
-				 .claim("role",user.getRole().name()) //setting role in token
-				 .expiration(new Date((new Date()).getTime() + EXPIRATION_TIME))
-				 .signWith(signingKey)
-				 .compact();
+					   .subject(String.valueOf(user.getId()))
+					   .issuedAt(new Date())
+					   .claim("role",user.getRole().name()) //setting role in token
+					   .expiration(new Date((new Date()).getTime() + EXPIRATION_TIME))
+					   .signWith(signingKey)
+					   .compact();
 	}
 	
 	private Claims getClaimsFromToken(String token) {
@@ -36,7 +36,7 @@ public class JwtService {
 	public String extractUserId(String token) {
 		return getClaimsFromToken(token).getSubject();
 	}
-
+	
 	public boolean validateToken(String token, UserDetails user) {
 		String userIdFromToken = extractUserId(token);
 		if(user instanceof Users){
@@ -52,5 +52,5 @@ public class JwtService {
 	private boolean isTokenExpired(String token) {
 		return getClaimsFromToken(token).getExpiration().before(new Date());
 	}
-	
+
 }

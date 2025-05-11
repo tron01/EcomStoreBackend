@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -44,18 +45,18 @@ public class UserService {
 		userInfo.setUpdatedAt(LocalDateTime.now());
 		
 		userInfoRepository.save(userInfo);
-		UserDTO userDTO = UserDTO.builder()
-								  .id(savedUser.getId())
-								  .username(savedUser.getUsername())
-								  .name(userInfo.getName())
-								  .email(userInfo.getEmail())
-								  .createdAt(userInfo.getCreatedAt())
-								  .build();
+//		UserDTO userDTO = UserDTO.builder()
+//								  .id(savedUser.getId())
+//								  .username(savedUser.getUsername())
+//								  .name(userInfo.getName())
+//								  .email(userInfo.getEmail())
+//								  .createdAt(userInfo.getCreatedAt())
+//								  .build();
 								  
 		return UserCreateResponse.builder()
 					   .status("success")
 					   .message("User successfully registered")
-					   .data(userDTO)
+					   .roles(List.of(user.getRole().name()))
 					   .build();
 	}
 	
